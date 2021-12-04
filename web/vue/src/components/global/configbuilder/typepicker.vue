@@ -17,7 +17,7 @@ export default {
   },
   data: () => {
     return {
-      types: ['paper trader', 'market watcher', 'tradebot'],
+      types: ['paper trader', 'watcher', 'tradebot'],
       selectedTypeIndex: 0,
     }
   },

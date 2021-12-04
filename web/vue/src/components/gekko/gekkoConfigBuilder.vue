@@ -6,7 +6,7 @@
       market-picker(v-on:market='updateMarketConfig', :only-tradable='isTradebot')
     .grd-row-col-3-6.mx1
       type-picker(v-on:type='updateType')
-  template(v-if='type !== "market watcher"')
+  template(v-if='type !== "watcher"')
     .hr
     strat-picker.contain.my2(v-on:stratConfig='updateStrat')
     .hr(v-if='type === "paper trader"')
@@ -78,7 +78,7 @@ export default {
   },
   methods: {
     validConfig: config => {
-      if(config.type === 'market watcher')
+      if(config.type === 'watcher')
         return true;
 
       if(!config.tradingAdvisor)

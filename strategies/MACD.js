@@ -14,7 +14,7 @@ var log = require('../core/log.js');
 var method = {};
 
 // prepare everything our method needs
-method.init = function() {
+method.init = function () {
   // keep state about the current trend
   // here, on every new candle we use this
   // state object to check if we need to
@@ -35,13 +35,13 @@ method.init = function() {
 }
 
 // what happens on every new candle?
-method.update = function(candle) {
+method.update = function (candle) {
   // nothing!
 }
 
 // for debugging purposes: log the last calculated
 // EMAs and diff.
-method.log = function() {
+method.log = function () {
   var digits = 8;
   var macd = this.indicators.macd;
 
@@ -56,13 +56,13 @@ method.log = function() {
   log.debug('\t', 'macdiff:', macd.result.toFixed(digits));
 }
 
-method.check = function() {
+method.check = function () {
   var macddiff = this.indicators.macd.result;
 
-  if(macddiff > this.settings.thresholds.up) {
+  if (macddiff > this.settings.thresholds.up) {
 
     // new trend detected
-    if(this.trend.direction !== 'up')
+    if (this.trend.direction !== 'up')
       // reset the state for the new trend
       this.trend = {
         duration: 0,
@@ -75,19 +75,19 @@ method.check = function() {
 
     log.debug('In uptrend since', this.trend.duration, 'candle(s)');
 
-    if(this.trend.duration >= this.settings.thresholds.persistence)
+    if (this.trend.duration >= this.settings.thresholds.persistence)
       this.trend.persisted = true;
 
-    if(this.trend.persisted && !this.trend.adviced) {
+    if (this.trend.persisted && !this.trend.adviced) {
       this.trend.adviced = true;
-      this.advice('long');
+      this.advice('short');
     } else
       this.advice();
 
-  } else if(macddiff < this.settings.thresholds.down) {
+  } else if (macddiff < this.settings.thresholds.down) {
 
     // new trend detected
-    if(this.trend.direction !== 'down')
+    if (this.trend.direction !== 'down')
       // reset the state for the new trend
       this.trend = {
         duration: 0,
@@ -100,12 +100,12 @@ method.check = function() {
 
     log.debug('In downtrend since', this.trend.duration, 'candle(s)');
 
-    if(this.trend.duration >= this.settings.thresholds.persistence)
+    if (this.trend.duration >= this.settings.thresholds.persistence)
       this.trend.persisted = true;
 
-    if(this.trend.persisted && !this.trend.adviced) {
+    if (this.trend.persisted && !this.trend.adviced) {
       this.trend.adviced = true;
-      this.advice('short');
+      this.advice('long');
     } else
       this.advice();
 

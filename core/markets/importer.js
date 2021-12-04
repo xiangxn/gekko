@@ -11,7 +11,7 @@ var daterange = config.importer.daterange;
 
 var from = moment.utc(daterange.from);
 
-if(daterange.to) {
+if (daterange.to) {
   var to = moment.utc(daterange.to);
 } else {
   var to = moment().utc();
@@ -20,12 +20,12 @@ if(daterange.to) {
     to.format()
   );
 }
-log.debug(to.format());
+log.debug(`Import ${config.watch.currency}${config.watch.asset} From ${from.format()} To: ${to.format()}`);
 
-if(!from.isValid())
+if (!from.isValid())
   util.die('invalid `from`');
 
-if(!to.isValid())
+if (!to.isValid())
   util.die('invalid `to`');
 
 var TradeBatcher = require(dirs.budfox + 'tradeBatcher');
@@ -33,15 +33,15 @@ var CandleManager = require(dirs.budfox + 'candleManager');
 var exchangeChecker = require(dirs.gekko + 'exchange/exchangeChecker');
 
 var error = exchangeChecker.cantFetchFullHistory(config.watch);
-if(error)
+if (error)
   util.die(error, true);
 
 var fetcher = require(dirs.importers + config.watch.exchange);
 
-if(to <= from)
+if (to <= from)
   util.die('This daterange does not make sense.')
 
-var Market = function() {
+var Market = function () {
   _.bindAll(this);
   this.exchangeSettings = exchangeChecker.settings(config.watch);
 
@@ -61,7 +61,7 @@ var Market = function() {
 
   this.fetcher.bus.on(
     'done',
-    function() {
+    function () {
       this.done = true;
     }.bind(this)
   )
@@ -76,7 +76,7 @@ var Market = function() {
     this.pushCandles
   );
 
-  Readable.call(this, {objectMode: true});
+  Readable.call(this, { objectMode: true });
 
   this.get();
 }
@@ -88,27 +88,27 @@ Market.prototype = Object.create(Readable.prototype, {
 
 Market.prototype._read = _.noop;
 
-Market.prototype.pushCandles = function(candles) {
+Market.prototype.pushCandles = function (candles) {
   _.each(candles, this.push);
 }
 
-Market.prototype.get = function() {
+Market.prototype.get = function () {
   this.fetcher.fetch();
 }
 
-Market.prototype.processTrades = function(trades) {
+Market.prototype.processTrades = function (trades) {
   this.tradeBatcher.write(trades);
 
-  if(this.done) {
+  if (this.done) {
     log.info('Done importing!');
     this.emit('end');
     return;
   }
 
-  if(_.size(trades) && gekkoEnv === 'child-process') {
+  if (_.size(trades) && gekkoEnv === 'child-process') {
     let lastAtTS = _.last(trades).date;
     let lastAt = moment.unix(lastAtTS).utc().format();
-    process.send({event: 'marketUpdate', payload: lastAt});
+    process.send({ event: 'marketUpdate', payload: lastAt });
   }
 
   setTimeout(this.get, 1000);

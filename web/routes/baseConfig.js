@@ -14,6 +14,10 @@ config.debug = true;
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 config.tradingAdvisor = {
+  enabled: true,
+  method: 'MACD',
+  candleSize: 10,
+  historySize: 10,
 }
 
 config.candleWriter = {

@@ -57,7 +57,6 @@ Actor.prototype.setupStrategy = function() {
   if(config[this.strategyName]) {
     stratSettings = config[this.strategyName];
   }
-
   this.strategy = new WrappedStrategy(stratSettings);
   this.strategy
     .on(

@@ -542,7 +542,7 @@ In order to start a stratRunner, pass a config object that includes plugins requ
     "candleWriter": {
         "enabled": true,
     },
-    "type": "market watcher",
+    "type": "watcher",
     "mode": "realtime"
 }
 ```

@@ -149,7 +149,8 @@
     "YOYO",
     "ZEC",
     "ZEN",
-    "ZIL"
+    "ZIL",
+    "SOL"
   ],
   "currencies": [
     "BNB",
@@ -4591,6 +4592,17 @@
       ],
       "minimalOrder": {
         "amount": 0.00001,
+        "price": 0.01,
+        "order": 10
+      }
+    },
+    {
+      "pair": [
+        "USDT",
+        "SOL"
+      ],
+      "minimalOrder": {
+        "amount": 0.01,
         "price": 0.01,
         "order": 10
       }

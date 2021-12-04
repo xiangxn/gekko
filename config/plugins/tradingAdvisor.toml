@@ -1,7 +1,7 @@
 enabled = true
 
-candleSize = 60
-historySize = 25
+candleSize = 10
+historySize = 10
 method = "MACD"
 
 [talib]
